@@ -10,7 +10,6 @@ class App extends Component {
       data: [],
       array: []
     };
-    //this.displayData = this.displayData.bind(this);
   }
 
   componentDidMount() {
@@ -26,31 +25,24 @@ class App extends Component {
           };
         });
         this.setState({ data: tasks });
-
-        // create a new "State" object without mutating
-        // the original State object.
-
-        // store the new state object in the component's state
-
-        //this.convertData(this.state.data);
       })
       .catch(error => console.log(error));
   }
 
-  convertData = data => {
-    let converted = Object.entries(data);
-    this.setState({ array: converted });
-  };
+  handleClick = () => {
+    const Task = {
+      Id: 6,
+      Title: "POSTING",
+      Status: "PENDING"
+    };
 
-  displayData = data => {
-    data.map((post, index) => {
-      console.log(post.id);
+    axios.post(`http://localhost:3000/Tasks`, { Task }).then(res => {
+      console.log(res);
+      console.log(res.data);
     });
   };
 
   render() {
-    console.log(this.state.data);
-    //this.displayData(this.state.data);
     return (
       <div>
         <p>Hello World</p>
@@ -64,6 +56,7 @@ class App extends Component {
             );
           })}
         </div>
+        <button onClick={() => this.handleClick()}>CLICK ME</button>
       </div>
     );
   }
