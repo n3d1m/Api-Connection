@@ -8,7 +8,10 @@ class App extends Component {
     super(props);
     this.state = {
       data: [],
-      array: []
+      newId: 6,
+      newTitle: "POSTING",
+      newStatus: "PENDING",
+      putTitle: "CODING"
     };
   }
 
@@ -29,35 +32,72 @@ class App extends Component {
       .catch(error => console.log(error));
   }
 
-  handleClick = () => {
+  handlePOST = () => {
     const Task = {
       Id: 6,
       Title: "POSTING",
       Status: "PENDING"
     };
 
-    axios.post(`http://localhost:3000/Tasks`, { Task }).then(res => {
-      console.log(res);
-      console.log(res.data);
-    });
+    //http://localhost:3000/Tasks/3
+    axios
+      .post("http://localhost:3000/Tasks", {
+        Id: this.state.newId,
+        Title: this.state.newTitle,
+        Status: this.state.newStatus
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  handleDELETE = () => {
+    axios
+      .delete("http://localhost:3000/Tasks/6")
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  handlePUT = () => {
+    axios
+      .put("http://localhost:3000/Tasks/6", {
+        Title: this.state.putTitle
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   render() {
     return (
-      <div>
-        <p>Hello World</p>
+      <center>
         <div>
-          {this.state.data.map((post, index) => {
-            return (
-              <div key={index}>
-                <h1>{post.id}</h1>
-                <p>{post.title}</p>
-              </div>
-            );
-          })}
+          <p>Hello World</p>
+          <div>
+            {this.state.data.map((post, index) => {
+              return (
+                <div key={index}>
+                  <h1>{post.id}</h1>
+                  <p>{post.title}</p>
+                </div>
+              );
+            })}
+          </div>
+          <button onClick={() => this.handlePOST()}>ADD DATA</button>
+          <button onClick={() => this.handleDELETE()}>DELETE DATA</button>
+          <button onClick={() => this.handlePUT()}>CHANGE DATA</button>
         </div>
-        <button onClick={() => this.handleClick()}>CLICK ME</button>
-      </div>
+      </center>
     );
   }
 }
